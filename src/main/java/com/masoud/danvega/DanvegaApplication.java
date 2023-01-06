@@ -9,8 +9,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties({ProjectProperties.class})
 public class DanvegaApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DanvegaApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DanvegaApplication.class, args);
+    }
 
 }
