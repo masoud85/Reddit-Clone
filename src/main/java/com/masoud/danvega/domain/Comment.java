@@ -2,9 +2,7 @@ package com.masoud.danvega.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -15,5 +13,7 @@ public class Comment {
     private Long id;
     @NonNull
     private String body;
-//    private Link link;
+    @ManyToOne()
+    @JoinColumn(name="COMMENT_ID")
+    private Link link;
 }

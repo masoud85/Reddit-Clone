@@ -2,9 +2,8 @@ package com.masoud.danvega.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,4 +16,7 @@ public class Link {
     private String title;
     @NonNull
     private String url;
+
+    @OneToMany(mappedBy = "link", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 }
