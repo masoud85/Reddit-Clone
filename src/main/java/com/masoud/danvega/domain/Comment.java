@@ -1,5 +1,6 @@
 package com.masoud.danvega.domain;
 
+import com.masoud.danvega.domain.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-public class Comment {
+public class Comment extends Auditable {
     @Id
     @GeneratedValue
     private Long id;
