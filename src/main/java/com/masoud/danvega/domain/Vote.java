@@ -1,5 +1,6 @@
 package com.masoud.danvega.domain;
 
+import com.masoud.danvega.domain.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -8,7 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Vote {
+public class Vote extends Auditable {
 
     @Id
     @GeneratedValue

@@ -1,5 +1,6 @@
 package com.masoud.danvega.domain;
 
+import com.masoud.danvega.domain.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-public class Link {
+public class Link extends Auditable {
     @Id
     @GeneratedValue
     private Long id;
