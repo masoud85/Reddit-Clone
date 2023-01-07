@@ -1,0 +1,2 @@
+insert into link(created_date, last_updated_date, id, title, url) values(now(), now(), 1, 'spring boot', 'https://spring.io/projects/spring-boot');
+insert into comment(created_date, last_updated_date, id,body, link_id)values(now(), now(), 1,'this is a comment on spring boot link', 1);

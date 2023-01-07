@@ -16,5 +16,6 @@ public class Comment extends Auditable {
     private String body;
     @ManyToOne()
     @JoinColumn(name="LINK_ID")
+    @NonNull
     private Link link;
 }
