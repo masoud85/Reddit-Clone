@@ -2,46 +2,65 @@ package com.masoud.danvega.controller;
 
 import com.masoud.danvega.domain.Link;
 import com.masoud.danvega.repository.LinkRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+import javax.validation.Valid;
+import java.util.Optional;
 
-@RestController
-@RequestMapping("/link")
+@Controller
 public class LinkController {
 
-    private LinkRepository linkRepository;
-    @Qualifier("linkRepository")
-    private LinkRepository abc;
+    private static final Logger LOGGER = LoggerFactory.getLogger(LinkController.class);
 
-    public LinkController(LinkRepository linkRepository, LinkRepository abc) {
+    private LinkRepository linkRepository;
+
+    public LinkController(LinkRepository linkRepository) {
         this.linkRepository = linkRepository;
     }
 
     @GetMapping("/")
-    public List<Link> list() {
-        return linkRepository.findAll();
+    public String list(Model model) {
+        model.addAttribute("links", linkRepository.findAll());
+        return "link/list";
     }
 
-    @PostMapping("/create")
-    public Link create(@RequestBody Link link) {
-        return linkRepository.save(link);
+    @GetMapping("/link/{id}")
+    public String read(@PathVariable Long id, Model model) {
+        Optional<Link> link = linkRepository.findById(id);
+        if (link.isPresent()) {
+            model.addAttribute("link", link.get());
+            model.addAttribute("success", model.containsAttribute("success"));
+            return "link/view";
+        } else {
+            return "redirect:/";
+        }
     }
 
-    @GetMapping("/{id}")
-    public Link read(@PathVariable Long id) {
-        return linkRepository.findById(id).orElse(null);
+    @GetMapping("/link/submit")
+    public String newLinkForm(Model model) {
+        model.addAttribute("link", new Link());
+        return "link/submit";
     }
 
-    @PutMapping("/update")
-    public Link update(@RequestBody Link link) {
-        return linkRepository.save(link);
+    @PostMapping("/link/submit")
+    public String createLink(@Valid Link link, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            LOGGER.info("Validation errors were found while submitting a new link.");
+            model.addAttribute("link", link);
+            return "link/submit";
+        } else {
+            linkRepository.save(link);
+            LOGGER.info("New link was saved successfully.");
+            redirectAttributes.addAttribute("id", link.getId()).addFlashAttribute("success", true);
+            return "redirect:/link/{id}";
+        }
     }
-
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id) {
-        linkRepository.deleteById(id);
-    }
-
 }
