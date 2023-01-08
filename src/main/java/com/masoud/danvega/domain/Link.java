@@ -1,5 +1,6 @@
 package com.masoud.danvega.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.masoud.danvega.domain.audit.Auditable;
 import lombok.*;
 
@@ -8,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @NoArgsConstructor
 public class Link extends Auditable {
     @Id
@@ -19,6 +22,7 @@ public class Link extends Auditable {
     @NonNull
     private String url;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "link", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 

@@ -8,7 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class Vote extends Auditable {
 
     @Id
